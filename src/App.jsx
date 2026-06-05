@@ -150,7 +150,7 @@ export default function UrbanetHome() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; }
+        html, body { font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
 
         .nav-link {
@@ -193,7 +193,7 @@ export default function UrbanetHome() {
           display: flex; align-items: center; justify-content: center;
           cursor: pointer; transition: background .2s;
         }
-        .arrow-btn:hover { background: rgba(255,255,255,0.15); }
+        .arrow-btn:hover { background: rgba(255, 255, 255, 0.41); }
 
         /* Service cards: horizontal scroll on mobile */
         .services-scroll-wrap {
@@ -336,20 +336,20 @@ export default function UrbanetHome() {
             alt={slide.title}
             style={{
               position: "absolute",
-              right: 0, top: 0, bottom: 0,
-              width: isMobile ? "100%" : "68%",
+              left: 0, top: 0, bottom: 0,
+              width: "100%",
               height: "100%", objectFit: "cover", objectPosition: "center",
               opacity: currentSlide === idx ? 1 : 0,
               transition: "opacity 0.6s ease-in-out",
             }}
           />
         ))}
-        {/* Overlay */}
+        {/* Overlay — only darkens the left text area */}
         <div style={{
           position: "absolute", inset: 0,
           background: isMobile
-            ? "linear-gradient(180deg, rgba(26,32,44,0.85) 0%, rgba(26,32,44,0.75) 60%, rgba(26,32,44,0.55) 100%)"
-            : "linear-gradient(90deg, rgba(26,32,44,0.95) 0%, rgba(26,32,44,0.7) 45%, rgba(26,32,44,0.1) 75%, transparent 100%)",
+            ? "linear-gradient(180deg, rgba(26,32,44,0.45) 0%, rgba(26,32,44,0.25) 40%, transparent 100%)"
+            : "linear-gradient(90deg, rgba(26,32,44,0.55) 0%, rgba(26,32,44,0.3) 40%, transparent 60%)",
         }} />
 
         {/* Hero text */}
@@ -439,15 +439,7 @@ export default function UrbanetHome() {
 
       {/* ── CONNECTING SECTION ───────────────────────────────────────────── */}
       <section style={{ padding: isMobile ? "48px 20px 0" : "72px 48px 0" }}>
-        <div style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: isMobile ? 16 : 0,
-          marginBottom: isMobile ? 32 : 52,
-          maxWidth: 1200,
-        }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 48, maxWidth: 1800, margin: "0 auto 48px auto" }}>
           <h2 style={{
             fontSize: isMobile ? "clamp(24px, 7vw, 32px)" : "clamp(28px, 3.5vw, 42px)",
             fontWeight: 700, lineHeight: 1.2, letterSpacing: -0.8,
@@ -468,7 +460,7 @@ export default function UrbanetHome() {
         {/* Video banner */}
         <div style={{
           position: "relative", borderRadius: isMobile ? 14 : 20,
-          overflow: "hidden", height: isMobile ? 220 : 420, maxWidth: 1200,
+          overflow: "hidden", height: isMobile ? 220 : 420, maxWidth: 1800,
         }}>
           <img
             src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1400&q=80"
@@ -494,7 +486,7 @@ export default function UrbanetHome() {
           justifyContent: "space-between",
           gap: isMobile ? 10 : 0,
           marginBottom: isMobile ? 28 : 48,
-          maxWidth: 1200,
+          maxWidth: 1800,
           paddingLeft: isMobile ? "20px" : 0,
           paddingRight: isMobile ? "20px" : 0,
         }}>
@@ -530,7 +522,7 @@ export default function UrbanetHome() {
             </div>
           </div>
         ) : (
-          <div style={{ display: "flex", gap: 18, maxWidth: 1200 }}>
+          <div style={{ display: "flex", gap: 18, maxWidth: 1800 }}>
             {services.map((s, i) => (
               <div key={i} className="service-card" style={{ flex: 1, aspectRatio: "3/4" }}>
                 <img src={s.img} alt={s.title} />
@@ -614,7 +606,7 @@ export default function UrbanetHome() {
           </div>
         ) : (
           /* ── Desktop footer layout ── */
-          <div style={{ maxWidth: 1200 }}>
+          <div style={{ maxWidth: 1800 }}>
             <div style={{
               display: "flex", gap: 48, flexWrap: "wrap",
               justifyContent: "space-between", marginBottom: 48,
