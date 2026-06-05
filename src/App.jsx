@@ -97,6 +97,24 @@ const services = [
     img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80",
   },
 ];
+// ── Hero slides data ───────────────────────────────────────────────────────
+const heroSlides = [
+  {
+    image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1400&q=80",
+    title: "Modern Family Home",
+    address: "1234 Maple Avenue, Greenfield, TX",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80",
+    title: "Luxury Modern Villa",
+    address: "567 Pine Crest Road, Austin, TX",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=80",
+    title: "Sleek Minimalist Estate",
+    address: "890 Oak Ridge Lane, Dallas, TX",
+  },
+];
 
 // ── Responsive hook ────────────────────────────────────────────────────────
 function useIsMobile(breakpoint = 768) {
@@ -115,7 +133,15 @@ function useIsMobile(breakpoint = 768) {
 export default function UrbanetHome() {
   const [emailVal, setEmailVal] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const isMobile = useIsMobile();
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
+  const nextSlide = () => {
+    setCurrentSlide(prev => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+  };
 
   const px = isMobile ? "20px" : "48px";
 
@@ -302,17 +328,22 @@ export default function UrbanetHome() {
         paddingLeft: px,
         paddingRight: px,
       }}>
-        {/* Background image */}
-        <img
-          src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1400&q=80"
-          alt="hero house"
-          style={{
-            position: "absolute",
-            right: 0, top: 0, bottom: 0,
-            width: isMobile ? "100%" : "68%",
-            height: "100%", objectFit: "cover", objectPosition: "center",
-          }}
-        />
+        {/* Background images crossfade */}
+        {heroSlides.map((slide, idx) => (
+          <img
+            key={idx}
+            src={slide.image}
+            alt={slide.title}
+            style={{
+              position: "absolute",
+              right: 0, top: 0, bottom: 0,
+              width: isMobile ? "100%" : "68%",
+              height: "100%", objectFit: "cover", objectPosition: "center",
+              opacity: currentSlide === idx ? 1 : 0,
+              transition: "opacity 0.6s ease-in-out",
+            }}
+          />
+        ))}
         {/* Overlay */}
         <div style={{
           position: "absolute", inset: 0,
@@ -354,10 +385,10 @@ export default function UrbanetHome() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
               <HomeIcon />
-              <span style={{ fontWeight: 700, fontSize: 15 }}>Modern Family Home</span>
+              <span style={{ fontWeight: 700, fontSize: 15 }}>{heroSlides[currentSlide].title}</span>
             </div>
             <p style={{ fontSize: 13, color: "#888", marginBottom: 14, paddingLeft: 28 }}>
-              1234 Maple Avenue, Greenfield, TX
+              {heroSlides[currentSlide].address}
             </p>
             <button style={{
               width: "100%", background: "#111", color: "#fff", border: "none",
@@ -367,13 +398,18 @@ export default function UrbanetHome() {
           </div>
         )}
 
-        {/* Desktop arrows */}
-        {!isMobile && (
-          <div style={{ position: "absolute", right: 48, bottom: 28, display: "flex", gap: 10, zIndex: 3 }}>
-            <button className="arrow-btn"><ArrowLeft /></button>
-            <button className="arrow-btn"><ArrowRight /></button>
-          </div>
-        )}
+        {/* Navigation arrows */}
+        <div style={{
+          position: "absolute",
+          right: isMobile ? px : 48,
+          bottom: isMobile ? 24 : 28,
+          display: "flex",
+          gap: 10,
+          zIndex: 3
+        }}>
+          <button className="arrow-btn" onClick={prevSlide}><ArrowLeft /></button>
+          <button className="arrow-btn" onClick={nextSlide}><ArrowRight /></button>
+        </div>
 
         {/* Happy clients — always visible, repositioned on mobile */}
         <div style={{
